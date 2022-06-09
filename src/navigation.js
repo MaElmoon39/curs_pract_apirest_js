@@ -45,6 +45,10 @@ function navigator() {
     : location.hash.startsWith("#category=")
     ? categoriesPage()
     : homePage();
+
+  //Estas dos líneas de código me ayudan a ir siempre desde la vista principal desde el hombe a la sección que quiera ir
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }
 
 function homePage() {
