@@ -1,4 +1,5 @@
 //console.log("Hello world");
+//Función asíncrona para obtener de forma dinámica la información de movies trending del día desde la API de la página TheMovieDB
 async function getTrendingMoviesPreview() {
   const res = await fetch(
     "https://api.themoviedb.org/3/trending/movie/day?api_key=" + API_KEY
@@ -27,4 +28,32 @@ async function getTrendingMoviesPreview() {
   });
 }
 
+//Función asíncrona para obtener de manera dinámica las categorías de las películas esde la API de la página TheMovieDB
+async function getCategoriesPreview() {
+  const res = await fetch(
+    "https://api.themoviedb.org/3/genre/movie/list?api_key=" + API_KEY
+  );
+  const data = await res.json();
+
+  const categories = data.genres;
+  //console.log({ data, movies });
+  categories.forEach((category) => {
+    const previewCategoriesContainer = document.querySelector(
+      "#categoriesPreview .categoriesPreview-list"
+    );
+    const categoryContainer = document.createElement("div");
+    categoryContainer.classList.add("category-container");
+
+    const categoryTitle = document.createElement("h3");
+    categoryTitle.classList.add("category-title");
+    categoryTitle.setAttribute("id", 'id' + category.id); //esto es para agregar un atributo
+    const categoryTitleText = document.createTextNode(category.name);
+
+    categoryTitle.appendChild(categoryTitleText);
+    categoryContainer.appendChild(categoryTitle);
+    previewCategoriesContainer.appendChild(categoryContainer);
+  });
+}
+
 getTrendingMoviesPreview();
+getCategoriesPreview();
