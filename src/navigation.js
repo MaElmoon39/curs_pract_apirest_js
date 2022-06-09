@@ -82,6 +82,13 @@ function categoriesPage() {
   categoriesPreviewSection.classList.add("inactive");
   genericSection.classList.remove("inactive");
   movieDetailSection.classList.add("inactive");
+
+  const [_, categoryData] = location.hash.split("="); //devuelve un array así: ['#category', 'id-name']
+  const [categoryId, categoryName] = categoryData.split("-");
+
+  headerCategoryTitle.innerHTML = categoryName;
+
+  getMoviesByCategory(categoryId);
 }
 
 function movieDetailsPage() {

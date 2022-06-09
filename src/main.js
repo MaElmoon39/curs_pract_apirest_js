@@ -20,10 +20,10 @@ async function getTrendingMoviesPreview() {
   const movies = data.results;
   //console.log({ data, movies });
 
+  //Esto se hace para que cada vez que se devuelva desde otra vista del app al home, no se añadan más posters de movie trendings debido al appendChild
+  trendingMoviesPreviewList.innerHTML = "";
+
   movies.forEach((movie) => {
-    const trendingMoviesPreviewList = document.querySelector(
-      "#trendingPreview .trendingPreview-movieList"
-    );
     const movieContainer = document.createElement("div");
     movieContainer.classList.add("movie-container");
 
@@ -51,21 +51,53 @@ async function getCategoriesPreview() {
   const categories = data.genres;
   //console.log({ data, movies });
 
+  //Esto se hace para que cada vez que se devuelva desde otra vista del app al home, no se añadan más categorías de movie trendings debido al appendChild
+  categoriesPreviewList.innerHTML = "";
+
   categories.forEach((category) => {
-    const categoriesPreviewList = document.querySelector(
-      "#categoriesPreview .categoriesPreview-list"
-    );
     const categoryContainer = document.createElement("div");
     categoryContainer.classList.add("category-container");
 
     const categoryTitle = document.createElement("h3");
     categoryTitle.classList.add("category-title");
     categoryTitle.setAttribute("id", "id" + category.id); //esto es para agregar un atributo
+    categoryTitle.addEventListener("click", () => {
+      location.hash = `#category=${category.id}-${category.name}`;
+    });
     const categoryTitleText = document.createTextNode(category.name);
 
     categoryTitle.appendChild(categoryTitleText);
     categoryContainer.appendChild(categoryTitle);
     categoriesPreviewList.appendChild(categoryContainer);
+  });
+}
+
+async function getMoviesByCategory(id) {
+  const { data } = await api("discover/movie", {
+    params: {
+      with_genres: id,
+    },
+  });
+  const movies = data.results;
+  //console.log({ data, movies });
+
+  //Esto se hace para que cada vez que se devuelva desde otra vista del app al home, no se añadan más elementos de movie trendings debido al appendChild
+  genericSection.innerHTML = "";
+
+  movies.forEach((movie) => {
+    const movieContainer = document.createElement("div");
+    movieContainer.classList.add("movie-container");
+
+    const movieImg = document.createElement("img");
+    movieImg.classList.add("movie-img");
+    movieImg.setAttribute("alt", movie.title); //esto es para agregar un atributo
+    movieImg.setAttribute(
+      "src",
+      "https://image.tmdb.org/t/p/w300" + movie.poster_path
+    );
+
+    movieContainer.appendChild(movieImg);
+    genericSection.appendChild(movieContainer);
   });
 }
 
