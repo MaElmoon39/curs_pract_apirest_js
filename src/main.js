@@ -69,11 +69,6 @@ async function getTrendingMoviesPreview() {
 
 //Función asíncrona para obtener de manera dinámica las categorías de las películas desde la API de la página TheMovieDB
 async function getCategoriesPreview() {
-  //Esto es sin usar axios, solo fetch
-  //   const res = await fetch(
-  //     "https://api.themoviedb.org/3/genre/movie/list?api_key=" + API_KEY
-  //   );
-  //   const data = await res.json();
   const { data } = await api("genre/movie/list");
   const categories = data.genres;
   //console.log({ data, movies });
@@ -89,6 +84,26 @@ async function getMoviesByCategory(id) {
     },
   });
   const movies = data.results;
+
+  createMovies(movies, genericSection);
+}
+
+//Función asíncrona para obtener los resultados a partir de palabras digitadas en la barra de búsqueda (queries) 
+async function getMoviesBySearch(query) {
+  const { data } = await api("search/movie", {
+    params: {
+      query,
+    },
+  });
+  const movies = data.results;
+
+  createMovies(movies, genericSection);
+}
+
+async function getTrendingMovies() {
+  const { data } = await api("trending/movie/day");
+  const movies = data.results;
+  //console.log({ data, movies });
 
   createMovies(movies, genericSection);
 }

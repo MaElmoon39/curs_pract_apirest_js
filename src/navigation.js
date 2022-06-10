@@ -1,6 +1,6 @@
 //Código del profe Juan DC:
 searchFormBtn.addEventListener("click", () => {
-  location.hash = "#search=";
+  location.hash = "#search=" + searchFormInput.value;
 });
 
 trendingBtn.addEventListener("click", () => {
@@ -8,7 +8,8 @@ trendingBtn.addEventListener("click", () => {
 });
 
 arrowBtn.addEventListener("click", () => {
-  location.hash = "#home";
+  history.back(); //con esto vuelvo a la página anterior, que puede o no ser el home
+  //location.hash = "#home"; //con esto vuelvo desde la sección en la que estoy, al home
 });
 
 //Código del compañero Orlando Díaz:
@@ -120,13 +121,16 @@ function searchPage() {
   arrowBtn.classList.remove("inactive");
   arrowBtn.classList.remove("header-arrow--white");
   headerTitle.classList.add("inactive");
-  headerCategoryTitle.classList.remove("inactive");
+  headerCategoryTitle.classList.add("inactive");
   searchForm.classList.remove("inactive");
 
   trendingPreviewSection.classList.add("inactive");
   categoriesPreviewSection.classList.add("inactive");
   genericSection.classList.remove("inactive");
   movieDetailSection.classList.add("inactive");
+
+  const [_, query] = location.hash.split("="); //devuelve un array así: ['#search', 'buscado']
+  getMoviesBySearch(query);
 }
 
 function trendsPage() {
@@ -144,4 +148,8 @@ function trendsPage() {
   categoriesPreviewSection.classList.add("inactive");
   genericSection.classList.remove("inactive");
   movieDetailSection.classList.add("inactive");
+
+  headerCategoryTitle.innerHTML = "Tendencias";
+  
+  getTrendingMovies();
 }
