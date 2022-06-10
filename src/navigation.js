@@ -111,6 +111,10 @@ function movieDetailsPage() {
   categoriesPreviewSection.classList.add("inactive");
   genericSection.classList.add("inactive");
   movieDetailSection.classList.remove("inactive");
+
+  const [_, movieId] = location.hash.split("="); //devuelve un array así: ['#movie', '32131']
+
+  getMovieById(movieId);
 }
 
 function searchPage() {
@@ -150,6 +154,6 @@ function trendsPage() {
   movieDetailSection.classList.add("inactive");
 
   headerCategoryTitle.innerHTML = "Tendencias";
-  
+
   getTrendingMovies();
 }
